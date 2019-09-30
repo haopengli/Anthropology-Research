@@ -66,6 +66,6 @@ app.use('/node_modules/popper.js/dist', express.static('node_modules/popper.js/d
 app.use('/node_modules/bootstrap/dist/js', express.static('node_modules/bootstrap/dist/js'));
 app.use('/node_modules/js-cookie/src', express.static('node_modules/js-cookie/src'));
 
-app.listen(process.env.PORT || 3000, function(){
-    console.log("Server is running on http://127.0.0.1:8090/");
+app.listen(8091, function(){
+    console.log("Server is running on http://127.0.0.1:8091/");
 });
