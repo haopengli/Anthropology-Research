@@ -12,19 +12,23 @@ var moment = require('moment');
 var http = require('http');
 var URL = require('url');
 var request = require('request');
-var pdf = require('pdfkit');
+var GoogleSpreadsheet = require('google-spreadsheet');
+var creds = require('./client_secret.json');
+
+// Create a document object using the ID of the spreadsheet - obtained from its URL.
+var doc = new GoogleSpreadsheet('1W5FMdfp0GbGhbS0PztZpgYDAPHvhwek_icVLzf62Riw');
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use('/pilotstudy', router);
+app.use('/', router);
 
 
 db.run("CREATE TABLE IF NOT EXISTS Data(user_id INTEGER PRIMARY KEY AUTOINCREMENT, fullname varchar(40) NOT NULL, date datetime NOT NULL, route varchar(1), estimatesex1 varchar(15), estimateno1 varchar(1), estimatesex2 varchar(15), estimateno2 varchar(1), estimatesex3 varchar(15), estimateno3 varchar(1), question1 varchar(10), comment1 varchar(1000), question2 varchar(10), comment2 varchar(1000), question3 varchar(10), comment3 varchar(1000));");
 
-router.get('/index.html', function(req,resp){
+router.get('/', function(req,resp){
     fs.readFile('html/index.html', function (err, data) {
         if (err) console.log(err);
         resp.writeHead(200, {'Content-Type': 'text/html'});
@@ -43,10 +47,15 @@ router.post('/submit', function(req, resp){
         req.body.question2 + "', '" + (req.body.comment2).replace(new RegExp("\'", "g"),"\'\'") + "', '" +
         req.body.question3 + "', '" + (req.body.comment3).replace(new RegExp("\'", "g"),"\'\'") +"')";
     db.run(query);
+    doc.useServiceAccountAuth(creds, function (err) {
+        doc.addRow(1, req.body, function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
+    });
     resp.end();
 });
-
-
 
 
 router.use('/assets', express.static('html/assets'));
@@ -57,6 +66,6 @@ app.use('/node_modules/popper.js/dist', express.static('node_modules/popper.js/d
 app.use('/node_modules/bootstrap/dist/js', express.static('node_modules/bootstrap/dist/js'));
 app.use('/node_modules/js-cookie/src', express.static('node_modules/js-cookie/src'));
 
-app.listen(8090, function(){
-    console.log("Server is running on http://127.0.0.1:8090/pilotstudy/index.html");
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Server is running on http://127.0.0.1:8090/");
 });

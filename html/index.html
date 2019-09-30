@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sequential unmasking in forensic anthropology</title>
+    <title>Georgia Clarke Masters Pilot Study</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
@@ -33,56 +33,6 @@
 <body>
 <script>
 
-    function performSearch(events){
-        count = 0;
-        $.each(events, function(index, data){
-            count = count + 1;
-            if (!!data.url){
-                site = "<a href=\'" + data.url + "\'>Click here to visit site.</a><br>\n"
-            }
-            else{
-                site = ""
-            }
-            date = data.date.substring(8,10) + "/" + data.date.substring(5,7) + "/" + data.date.substring(0,4);
-
-            if (data.venue.icon !== ""){
-                img = "<img src=\""+ data.venue.icon +"\" style=\"max-width: 125px; max-height: 80px\">\n"
-            }
-            else{
-                img = ""
-            }
-
-            $("#overview").append("<div class=\"panel-group bg-hp\">\n" +
-                "            <div class=\"panel panel-default\">\n" +
-                "                <div class=\"panel-heading\">\n" +
-                "                    <h4 class=\"panel-title\" style=\"text-align: center; font-size: 20px\">\n" +
-                "                        <a data-toggle=\"collapse\" href=\"#collapse" + count + "\">" + data.title + "</a>\n" +
-                "                    </h4>\n" +
-                "                </div>\n" +
-                "                <div id=\"collapse" + count + "\" class=\"panel-collapse collapse\">\n" +
-                "                    <div class=\"panel-body\">\n" +
-                "                        <div class=\"row\" style=\"font-size: 16px\">\n" +
-                "                            <div class=\"col-2\" style=\"text-align: center\">\n" +
-                "                                <a href=\'"+ data.venue.url +"\'>" + img +
-                "                                 </a>" +
-                "                            </div>\n" +
-                "                            <div class=\"col-5\">\n" +
-                "                                "+ data.blurb +"<br><br>\n" + site +
-                "                            </div>\n" +
-                "                            <div class=\"col-5\">\n" +
-                "                                Venue Name: "+ data.venue.name +"<br>\n" +
-                "                                Postcode: "+ data.venue.postcode +"<br>\n" +
-                "                                Town: "+ data.venue.town +"<br>\n" +
-                "                                Date: " + date +
-                "                            </div>\n" +
-                "                        </div>\n" +
-                "                    </div>\n" +
-                "                </div>\n" +
-                "            </div>\n" +
-                "        </div>")
-        });
-    }
-
     $(document).ready(function () {
         $("#r1").hide();
         $("#qa").hide();
@@ -109,7 +59,6 @@
 
             code1 = "SFT65";
             code2 = "AWS63";
-
             event.preventDefault();
             $("#overview").empty();
             if ($('#c1').is(':checked') && $('#c2').is(':checked') && $('#c3').is(':checked') && $('#name').val() != "" && $('#date').val() != "" && $('#code').val() != ""){
@@ -181,7 +130,7 @@
                 }
             }
             else{
-                $("#r1d").append("<br><h4 style='text-align: center; color: crimson'>Please ensure you have entered a correct gender estimate and have selected a gender.");
+                $("#r1d").append("<br><h4 style='text-align: center; color: crimson'>Please ensure you have entered a correct sex estimate and have selected a sex.");
             }
         });
         $("#qasubmit").unbind("click").click(function (event) {
@@ -262,22 +211,47 @@
         </div>
     </div>
     <div class="row" id="r1" style="text-align: left; font-family: Verdana; font-size: 18px">
-        <div class="col-lg-12" id = "r1a">
-            The police have asked you to help to identify the sex of an individual to help their investigation. Please use the reference diagrams in Figure 2 to estimate the sex of the individual in Figure 1 using the greater sciatic notch. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        <div class="col-lg-12" id = "r1a" style="color: darkblue">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 1</h1></div><br>
+
+            The police have asked you to help identify the sex of an individual to help their investigation.
+            <br><br>
+            Please provide a sex estimate for the individual in Figure 1 using the greater sciatic notch (circled) and the reference diagrams in Figure 2. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
         </div>
-        <div class="col-lg-12" id = "r1b">
-            The police have contacted you as they have received information that a woman went missing 5 years ago in the area that the remains were found. They want to know if you think the os coxae in Figure 1 could have belonged to the woman they are describing. With this information in mind, please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        <div class="col-lg-12" id = "r1b" style="color: darkslategrey">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 2</h1></div><br>
+
+            The police believe that these remains belonged to a woman who went missing 5 years ago in the same area. The police also found a handbag near the remains.
+            <br><br>
+            With this information in mind, please provide the number you believe the greater sciatic notch in Figure 1 best resembles (with the aid of Figure 2) as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
         </div>
-        <div class="col-lg-12" id = "r1c">
-            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+        <div class="col-lg-12" id = "r1c" style="color: darkgreen">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 3</h1></div><br>
+            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding score (number) for the greater sciatic notch in Figure 1 (with the aid of Figure 2) and a sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
         </div>
-        <div class="col-lg-12" id = "r2a">
-            The police have asked you to help to identify the sex of an individual to help their investigation. They have received information that a woman went missing 5 years ago in the area that the remains were found. They want to know if you think the os coxae in Figure 1 could have belonged to the woman they are describing. With this information in mind, please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        <div class="col-lg-12" id = "r2a" style="color: darkblue">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 1</h1></div><br>
+            The police have asked you to help to identify the sex of an individual to help their investigation.
+            <br><br>
+            The police believe that these remains belonged to a woman who went missing 5 years ago in the same area. The police also found a handbag near the remains.
+            <br><br>
+            With this information in mind, please provide a sex estimate for the individual in Figure 1 using the greater sciatic notch (circled) and the reference diagrams in Figure 2. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
         </div>
-        <div class="col-lg-12" id = "r2b">
-            Without considering the woman who went missing in the area in your estimation, please use the reference diagrams in Figure 1 to estimate the sex of the individual in Figure 2 using the greater sciatic notch. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’. </div>
-        <div class="col-lg-12" id = "r2c">
-            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+        <div class="col-lg-12" id = "r2b" style="color: darkslategrey">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 2</h1></div><br>
+            Without considering the police’s opinion of who the remains belong to (the missing woman), please provide a sex estimate for the individual in Figure 1 using the greater sciatic notch (with the aid of Figure 2).
+            <br><br>
+            Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
+        </div>
+        <div class="col-lg-12" id = "r2c" style="color: darkgreen">
+            <div class="align-content-center"><h1 style="text-align: center">Stage 3</h1></div><br>
+            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding score (number) for the greater sciatic notch in Figure 1 and a sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+            <br><br>
         </div>
         <div class="col-xs-6" style="text-align: center">
             <div class="container"><div class="px-0">
@@ -297,7 +271,7 @@
                 <label class="radio-inline"><input type="radio" name="sex" value="female">Female</label>
                 <label class="radio-inline"><input type="radio" name="sex" value="undetermined">Undetermined</label>
                 <br><br>
-                <input type = "text" class="col-md-9" name = "name" placeholder="Gender Estimate" id="r1e">
+                <input type = "text" class="col-md-9" name = "name" placeholder="Sex Estimate" id="r1e">
                 <button class="btn bg-success" id = "r1s">Submit</button>
             </form>
             <div id="r1d"></div>
@@ -309,10 +283,9 @@
             <form class="form" style="text-align: left; font-family: Verdana; font-size: 18px">
                 <div class="form-group">
 
-                    Thank you for providing your estimates. This project is specifically looking at the role that contextual information plays in estimating the sex of skeletal remains. The participants have been randomly allocated to a number of experiments that vary in the timing of the introduction of contextual information.
+                    Thank you for providing your estimates. This project is specifically looking at the role that contextual information plays in estimating the sex of skeletal remains.
                     <br><br>
                     Please answer the following few questions to help Georgia understand how you perceived the introduction of contextual information in the experiment. The answers are multiple choice, but you have the option of explaining your answer in the text box if you feel it would help.
-
                     <br><br>
                     Did you feel that the introduction of contextual information (i.e. the missing woman last seen in the area) affected your estimate?<br>
                     <label class="radio-inline"><input type="radio" name="q1" value="yes" checked>Yes</label>
@@ -357,7 +330,7 @@
     </div>
     <div class = "row mycontainer" id = "thank" style="text-align: center; font-family: Verdana; font-size: 18px">
         <div class="col-lg-12">
-            Thank you for taking part. If you have any questions or would like to withdraw your results, please contact georgia.a.clarke@durham.ac.uk no later than the 14th of April 2019.
+            Thank you for taking part. If you have any questions or would like to withdraw your results, please contact georgia.a.clarke@durham.ac.uk no later than the 1st of May 2019.
         </div>
     </div>
     <div id="overview">

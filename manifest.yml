@@ -1,5 +1,0 @@
----
-applications:
- - name: Events
-   random-route: true
-   memory: 128M
