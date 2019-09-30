@@ -1,0 +1,31 @@
+{
+  "name": "webassignment",
+  "version": "0.0.1",
+  "description": "This is my web assignment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Haopeng Li",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "bootstrap": "^4.0.0-beta.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "html-pdf": "^2.2.0",
+    "jquery": "^3.3.1",
+    "js-cookie": "^2.2.0",
+    "json-2-csv": "^2.1.2",
+    "jsonwebtoken": "^8.1.0",
+    "moment": "^2.19.4",
+    "pdfkit": "^0.9.0",
+    "popper.js": "^1.12.9",
+    "request": "^2.88.0",
+    "sqlite": "^3.0.2",
+    "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
+    "url": "^0.11.0"
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sequential unmasking in forensic anthropology</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/jquery/jquery.min.js"></script>
+    <script src="../node_modules/popper.js/dist/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: url(assets/bg.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .mycontainer {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<script>
+
+    function performSearch(events){
+        count = 0;
+        $.each(events, function(index, data){
+            count = count + 1;
+            if (!!data.url){
+                site = "<a href=\'" + data.url + "\'>Click here to visit site.</a><br>\n"
+            }
+            else{
+                site = ""
+            }
+            date = data.date.substring(8,10) + "/" + data.date.substring(5,7) + "/" + data.date.substring(0,4);
+
+            if (data.venue.icon !== ""){
+                img = "<img src=\""+ data.venue.icon +"\" style=\"max-width: 125px; max-height: 80px\">\n"
+            }
+            else{
+                img = ""
+            }
+
+            $("#overview").append("<div class=\"panel-group bg-hp\">\n" +
+                "            <div class=\"panel panel-default\">\n" +
+                "                <div class=\"panel-heading\">\n" +
+                "                    <h4 class=\"panel-title\" style=\"text-align: center; font-size: 20px\">\n" +
+                "                        <a data-toggle=\"collapse\" href=\"#collapse" + count + "\">" + data.title + "</a>\n" +
+                "                    </h4>\n" +
+                "                </div>\n" +
+                "                <div id=\"collapse" + count + "\" class=\"panel-collapse collapse\">\n" +
+                "                    <div class=\"panel-body\">\n" +
+                "                        <div class=\"row\" style=\"font-size: 16px\">\n" +
+                "                            <div class=\"col-2\" style=\"text-align: center\">\n" +
+                "                                <a href=\'"+ data.venue.url +"\'>" + img +
+                "                                 </a>" +
+                "                            </div>\n" +
+                "                            <div class=\"col-5\">\n" +
+                "                                "+ data.blurb +"<br><br>\n" + site +
+                "                            </div>\n" +
+                "                            <div class=\"col-5\">\n" +
+                "                                Venue Name: "+ data.venue.name +"<br>\n" +
+                "                                Postcode: "+ data.venue.postcode +"<br>\n" +
+                "                                Town: "+ data.venue.town +"<br>\n" +
+                "                                Date: " + date +
+                "                            </div>\n" +
+                "                        </div>\n" +
+                "                    </div>\n" +
+                "                </div>\n" +
+                "            </div>\n" +
+                "        </div>")
+        });
+    }
+
+    $(document).ready(function () {
+        $("#r1").hide();
+        $("#qa").hide();
+        $("#thank").hide();
+        count = 0;
+        route = 0;
+        fullname = null;
+        date = null;
+        route = null;
+        sex1 = null;
+        sex2 = null;
+        sex3 = null;
+        no1 = null;
+        no2 = null;
+        no3 = null;
+        q1 = null;
+        c1 = null;
+        q2 = null;
+        c2 = null;
+        q3 = null;
+        c3 = null;
+
+        $("#submit").unbind("click").click(function (event) {
+
+            code1 = "SFT65";
+            code2 = "AWS63";
+
+            event.preventDefault();
+            $("#overview").empty();
+            if ($('#c1').is(':checked') && $('#c2').is(':checked') && $('#c3').is(':checked') && $('#name').val() != "" && $('#date').val() != "" && $('#code').val() != ""){
+
+                if ($('#code').val() == code1){
+                    route = 1;
+                    $('#start').hide();
+                    fullname = $('#name').val();
+                    date = $('#date').val();
+                    $('#r1').show();
+                    $("#r1b").hide();
+                    $("#r1c").hide();
+                    $("#r2a").hide();
+                    $("#r2b").hide();
+                    $("#r2c").hide();
+                    route = 1;
+                }
+                else if ($('#code').val() == code2){
+                    route = 2;
+                    $('#start').hide();
+                    fullname = $('#name').val();
+                    date = $('#date').val();
+                    $('#r1').show();
+                    $("#r1b").hide();
+                    $("#r1c").hide();
+                    $("#r1a").hide();
+                    $("#r2b").hide();
+                    $("#r2c").hide();
+                    route = 2;
+                }
+                else {
+                    $("#overview").append("<h4 style='text-align: center; color: crimson'>Invalid code inputted. Please check the code again.")
+                }
+            }
+            else {
+                $('#overview').append("" + "<h4 style=\'text-align: center\; color: crimson'>Please tick all the boxes and ensure to fill in all the boxes before continuing.</h4>")
+            }
+        });
+        $("#r1s").unbind("click").click(function (event) {
+            event.preventDefault();
+            $("#overview").empty();
+            $("#r1d").empty();
+            canMoveOn = false;
+            if ($('#r1e').val() != ""){
+                value = parseFloat($('#r1e').val());
+                canMoveOn = Number.isInteger(value) && (value <= 5 && value >=1) && $('input[name=sex]:checked').val() != null;
+            }
+            if(canMoveOn){
+                count += 1;
+                if (count == 1){
+                    sex1 = $('input[name=sex]:checked').val();
+                    no1 = $('#r1e').val();
+                    $('#r1e').val('');
+                    $("#r" + route + "a").hide();
+                    $("#r" + route + "b").show();
+                }
+                else if (count == 2){
+                    sex2 = $('input[name=sex]:checked').val();
+                    no2 = $('#r1e').val();
+                    $('#r1e').val('');
+                    $("#r" + route + "b").hide();
+                    $("#r" + route + "c").show();
+                }
+                else{
+                    sex3 = $('input[name=sex]:checked').val();
+                    no3 = $('#r1e').val();
+                    $("#r1").hide();
+                    $("#qa").show();
+                }
+            }
+            else{
+                $("#r1d").append("<br><h4 style='text-align: center; color: crimson'>Please ensure you have entered a correct gender estimate and have selected a gender.");
+            }
+        });
+        $("#qasubmit").unbind("click").click(function (event) {
+            event.preventDefault();
+            q1 = $('input[name=q1]:checked').val();
+            q2 = $('input[name=q2]:checked').val();
+            q3 = $('input[name=q3]:checked').val();
+            c1 = $('#comment1').val();
+            c2 = $('#comment2').val();
+            c3 = $('#comment3').val();
+            $.post("submit", {
+                name : fullname,
+                date : date,
+                route : route,
+                estimatesex1 : sex1,
+                estimateno1 : no1,
+                estimatesex2 : sex2,
+                estimateno2 : no2,
+                estimatesex3 : sex3,
+                estimateno3 : no3,
+                question1 : q1,
+                comment1 : c1,
+                question2 : q2,
+                comment2 : c2,
+                question3 : q3,
+                comment3 : c3
+            }, function (data) {
+                $("#qa").hide();
+                $("#thank").show();
+            });
+        })
+    });
+
+</script>
+<div class="container bg-light">
+    <div class="row">
+        <div class="align-content-center col-8 offset-2">
+
+        </div>
+    </div>
+    <br>
+    <div class="row" id="start">
+        <div class="col-lg-12">
+            <form class="form" style="text-align: left; font-family: Verdana; font-size: 18px">
+                This is a pilot study for Georgia Clarke’s masters project, which looks at forensic anthropological methods in estimating sex from skeletal remains.
+                <br><br>
+                You will be tasked with estimating the sex of a bone using a specific method and reference photos to help in your interpretation. This will happen in 3 stages, each with slightly different instructions.
+                <br><br>
+                Once you have completed your estimates, you will be asked a few questions to help Georgia understand why you came to the conclusions you did.
+                <br><br>
+                Please note that you will be shown photos of skeletal remains, as you will have seen in EVA or FA before.
+                <br><br>
+                Your results will be used to help Georgia refine her methods for her master’s project next year. Your results will be anonymised and only viewed by Georgia, her supervisors Trudi Buck and Rachel Kendal, and a potential external marker. The results are password protected.
+                <br><br>
+                You do not have to take part and you can withdraw yourself from the process at any time without any reason or consequence. Please email georgia.a.clarke@durham.ac.uk if you would like to withdraw your results or if you have any questions.
+                <br><br>
+                Please complete the following consent form if you wish to take part in the pilot study.
+                <br><br>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" id="c1">I have read the above information sheet.</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" id="c2">I agree for my results to be used in Georgia Clarke’s pilot study for her proposed masters project.</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" id="c3">I understand that I am able to withdraw from the study at any point without giving a reason and without consequence.</label>
+                    </div>
+                    <label for="name">Digital Signature:</label>
+                    <input type = "text" class="col-9" name = "name" placeholder="Your name here" id="name">
+                    <label for="code">Verification Code:</label>
+                    <input type = "text" class="col-9" name = "code" placeholder="The verfication code which was sent through email" id="code">
+                    <label for="date">Date of submission:</label>
+                    <input type = "date" name = "date" id = "date">
+                    <button class="btn bg-success" id = "submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" id="r1" style="text-align: left; font-family: Verdana; font-size: 18px">
+        <div class="col-lg-12" id = "r1a">
+            The police have asked you to help to identify the sex of an individual to help their investigation. Please use the reference diagrams in Figure 2 to estimate the sex of the individual in Figure 1 using the greater sciatic notch. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        </div>
+        <div class="col-lg-12" id = "r1b">
+            The police have contacted you as they have received information that a woman went missing 5 years ago in the area that the remains were found. They want to know if you think the os coxae in Figure 1 could have belonged to the woman they are describing. With this information in mind, please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        </div>
+        <div class="col-lg-12" id = "r1c">
+            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+        </div>
+        <div class="col-lg-12" id = "r2a">
+            The police have asked you to help to identify the sex of an individual to help their investigation. They have received information that a woman went missing 5 years ago in the area that the remains were found. They want to know if you think the os coxae in Figure 1 could have belonged to the woman they are describing. With this information in mind, please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’.
+        </div>
+        <div class="col-lg-12" id = "r2b">
+            Without considering the woman who went missing in the area in your estimation, please use the reference diagrams in Figure 1 to estimate the sex of the individual in Figure 2 using the greater sciatic notch. Please provide the number you believe the greater sciatic notch best resembles as well as a sex estimate of either ‘male’, ‘female’ or ‘undetermined’. </div>
+        <div class="col-lg-12" id = "r2c">
+            Taking into consideration the estimates that you gave in both stage 1 and stage 2, please provide a concluding sex estimate of ‘male’, ‘female’ or ‘undetermined’.
+        </div>
+        <div class="col-xs-6" style="text-align: center">
+            <div class="container"><div class="px-0">
+                <img src="assets/r1a1.png" class="img-fluid">
+                <div>Figure 1: Os coxae with greater sciatic notch circled, which can be used to provide a sex estimate.</div>
+            </div>
+            </div>
+        </div>
+        <div class="col-xs-6" style="text-align: center">
+            <div class="container"><div class="px-0">
+                <img src="assets/r1a2.png" class="img-fluid">
+                <div>Figure 2: Scoring system of the greater sciatic notch from Walker (2005). </div>
+            </div></div>
+            <hr>
+            <form class="form">
+                <label class="radio-inline"><input type="radio" name="sex" value="male">Male</label>
+                <label class="radio-inline"><input type="radio" name="sex" value="female">Female</label>
+                <label class="radio-inline"><input type="radio" name="sex" value="undetermined">Undetermined</label>
+                <br><br>
+                <input type = "text" class="col-md-9" name = "name" placeholder="Gender Estimate" id="r1e">
+                <button class="btn bg-success" id = "r1s">Submit</button>
+            </form>
+            <div id="r1d"></div>
+
+        </div>
+    </div>
+    <div class = "row" id = "qa" style="text-align: left; font-family: Verdana; font-size: 16px">
+        <div class="col-lg-12">
+            <form class="form" style="text-align: left; font-family: Verdana; font-size: 18px">
+                <div class="form-group">
+
+                    Thank you for providing your estimates. This project is specifically looking at the role that contextual information plays in estimating the sex of skeletal remains. The participants have been randomly allocated to a number of experiments that vary in the timing of the introduction of contextual information.
+                    <br><br>
+                    Please answer the following few questions to help Georgia understand how you perceived the introduction of contextual information in the experiment. The answers are multiple choice, but you have the option of explaining your answer in the text box if you feel it would help.
+
+                    <br><br>
+                    Did you feel that the introduction of contextual information (i.e. the missing woman last seen in the area) affected your estimate?<br>
+                    <label class="radio-inline"><input type="radio" name="q1" value="yes" checked>Yes</label>
+                    <label class="radio-inline"><input type="radio" name="q1" value="no">No</label>
+                    <label class="radio-inline"><input type="radio" name="q1" value="unsure">Not Sure</label><br><br>
+
+                    <div class="form-group">
+                        <label for="comment1">Comment:</label>
+                        <textarea class="form-control" rows="5" id="comment1"></textarea>
+                    </div>
+
+                    <br><br>
+
+                    Do you think that estimates made without knowing any context of a crime are more accurate than estimates informed by contextual information?<br>
+                    <label class="radio-inline"><input type="radio" name="q2" value="yes" checked> Yes </label>
+                        <label class="radio-inline"><input type="radio" name="q2" value="no"> No </label>
+                        <label class="radio-inline"><input type="radio" name="q2" value="unsure"> Not Sure </label> <br><br>
+
+                    <div class="form-group">
+                        <label for="comment2">Comment:</label>
+                        <textarea class="form-control" rows="5" id="comment2"></textarea>
+                    </div>
+
+                    <br><br>
+
+                    Do you think forensic anthropologists should use contextual information to help with their estimates?<br>
+                    <label class="radio-inline"><input type="radio" name="q3" value="yes" checked> Yes </label>
+                    <label class="radio-inline"><input type="radio" name="q3" value="no"> No </label>
+                    <label class="radio-inline"><input type="radio" name="q3" value="unsure"> Not Sure </label> <br><br>
+
+                    <div class="form-group">
+                        <label for="comment3">Comment:</label>
+                        <textarea class="form-control" rows="5" id="comment3"></textarea>
+                    </div>
+
+                    <br><br>
+
+                    <button class="btn bg-success btn-primary btn-block" id = "qasubmit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class = "row mycontainer" id = "thank" style="text-align: center; font-family: Verdana; font-size: 18px">
+        <div class="col-lg-12">
+            Thank you for taking part. If you have any questions or would like to withdraw your results, please contact georgia.a.clarke@durham.ac.uk no later than the 14th of April 2019.
+        </div>
+    </div>
+    <div id="overview">
+
+    </div>
+</div>
+
+</body>
+</html>
